@@ -62,9 +62,7 @@ public class TMFCoreCli {
 		String numTopics = cmdline.getOptionValue("n");
 		Integer topics = Integer.parseInt(numTopics);
 
-		// XXX
-		String configFileName = "./conf/server.properties";
-		TMFVariables tmfVariables = new TMFVariables(configFileName);
+		TMFVariables tmfVariables = new TMFVariables("conf/server.properties");
 		IndexesUtil indexesUtil = new IndexesUtil();
 
 		Classifier classifier = new Classifier(lang);
