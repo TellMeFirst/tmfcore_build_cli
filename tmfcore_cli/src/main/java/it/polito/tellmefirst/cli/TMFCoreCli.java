@@ -21,14 +21,47 @@ package it.polito.tellmefirst.cli;
 
 import it.polito.tellmefirst.classify.Classifier;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
-import org.apache.lucene.queryParser.ParseException;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.PosixParser;
 
 public class TMFCoreCli {
 	public static void main(String[] args)
-			throws InterruptedException, IOException, ParseException {
-		Classifier classifier = new Classifier("it");
-		List<String[]> list = classifier.classify("Hello, world", 7, "it");
+			throws InterruptedException, IOException,
+			org.apache.lucene.queryParser.ParseException,
+			org.apache.commons.cli.ParseException {
+
+		Options options = new Options();
+		options.addOption("f", true, "Input file");
+		options.addOption("l", true, "Classifier language (e.g., it)");
+		options.addOption("n", true, "Number of topics");
+
+		CommandLineParser parser = new PosixParser();
+		CommandLine cmdline = parser.parse(options, args);
+
+		if (!cmdline.hasOption("f") || !cmdline.hasOption("l") ||
+				!cmdline.hasOption("n")) {
+			HelpFormatter formatter = new HelpFormatter();
+			formatter.printHelp("tellmefirst", options);
+			return;
+		}
+
+		String filePath = cmdline.getOptionValue("f");
+		String content = new String(Files.readAllBytes(
+				Paths.get(filePath)), "utf-8");
+
+		String lang = cmdline.getOptionValue("l");
+
+		String numTopics = cmdline.getOptionValue("n");
+		Integer topics = Integer.parseInt(numTopics);
+
+		Classifier classifier = new Classifier(lang);
+		List<String[]> list = classifier.classify(content, topics, lang);
 		System.out.println(list + "\n");
 	}
 }
