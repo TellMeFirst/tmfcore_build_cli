@@ -63,7 +63,7 @@ public class TMFCoreCli {
 		Integer topics = Integer.parseInt(numTopics);
 
 		TMFVariables tmfVariables = new TMFVariables("conf/server.properties");
-		IndexesUtil indexesUtil = new IndexesUtil();
+		IndexesUtil.init();
 
 		Classifier classifier = new Classifier(lang);
 		List<String[]> list = classifier.classify(content, topics, lang);
