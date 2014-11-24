@@ -20,6 +20,8 @@
 package it.polito.tellmefirst.cli;
 
 import it.polito.tellmefirst.classify.Classifier;
+import it.polito.tellmefirst.lucene.IndexesUtil;
+import it.polito.tellmefirst.util.TMFVariables;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -59,6 +61,11 @@ public class TMFCoreCli {
 
 		String numTopics = cmdline.getOptionValue("n");
 		Integer topics = Integer.parseInt(numTopics);
+
+		// XXX
+		String configFileName = "./conf/server.properties";
+		TMFVariables tmfVariables = new TMFVariables(configFileName);
+		IndexesUtil indexesUtil = new IndexesUtil();
 
 		Classifier classifier = new Classifier(lang);
 		List<String[]> list = classifier.classify(content, topics, lang);
