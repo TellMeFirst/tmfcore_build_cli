@@ -67,6 +67,15 @@ public class TMFCoreCli {
 
 		Classifier classifier = new Classifier(lang);
 		List<String[]> list = classifier.classify(content, topics, lang);
-		System.out.println(list + "\n");
+
+		System.out.println("=== BEGIN CLASSIFY OUTPUT ===");
+		for (String[] v : list) {
+			System.out.println("--- BEGIN CLASSIFY OUTPUT ENTRY ---");
+			for (String s : v) {
+				System.out.println(s);
+			}
+			System.out.println("--- END CLASSIFY OUTPUT ENTRY ---");
+		}
+		System.out.println("=== END CLASSIFY OUTPUT ===");
 	}
 }
