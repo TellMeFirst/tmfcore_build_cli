@@ -1,6 +1,4 @@
 /*-
- * TellMeFirst - A Knowledge Discovery Application
- *
  * Copyright (C) 2014 Simone Basso <bassosimone@gmail.com>.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,7 +14,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package it.polito.tellmefirst.cli;
 
 import it.polito.tellmefirst.classify.Classifier;
