@@ -20,6 +20,7 @@ import it.polito.tellmefirst.classify.Classifier;
 import it.polito.tellmefirst.lucene.IndexesUtil;
 import it.polito.tellmefirst.util.TMFVariables;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -27,13 +28,12 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
 public class TMFCoreCli {
-	public static void main(String[] args)
-			throws InterruptedException, IOException,
-			org.apache.lucene.queryParser.ParseException,
-			org.apache.commons.cli.ParseException {
+	public static void main(String[] args) throws ParseException,
+			UnsupportedEncodingException, IOException {
 
 		Options options = new Options();
 		options.addOption("f", true, "Input file");
@@ -63,16 +63,20 @@ public class TMFCoreCli {
 		IndexesUtil.init();
 
 		Classifier classifier = new Classifier(lang);
-		List<String[]> list = classifier.classify(content, topics, lang);
+		List<String[]> list = classifier.classify(content, topics);
 
 		System.out.println("=== BEGIN CLASSIFY OUTPUT ===");
-		for (String[] v : list) {
+		list.stream().map((v) -> {
 			System.out.println("--- BEGIN CLASSIFY OUTPUT ENTRY ---");
+			return v;
+		}).map((v) -> {
 			for (String s : v) {
 				System.out.println(s);
 			}
+			return v;
+		}).forEach((_item) -> {
 			System.out.println("--- END CLASSIFY OUTPUT ENTRY ---");
-		}
+		});
 		System.out.println("=== END CLASSIFY OUTPUT ===");
 	}
 }
